@@ -1475,7 +1475,7 @@ CONFIG_BCMDHD_NVRAM_PATH="/etc/calibration"
 # CONFIG_IWM is not set
 # CONFIG_LIBERTAS is not set
 # CONFIG_MWIFIEX is not set
-CONFIG_BCMDHD_4335=m
+CONFIG_BCMDHD_4335_MCC=y
 
 #
 # Enable WiMAX (Networking options) to see the WiMAX drivers
