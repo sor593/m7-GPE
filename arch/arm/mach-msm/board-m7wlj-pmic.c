@@ -507,8 +507,8 @@ pm8921_chg_pdata __devinitdata = {
 	.mbat_in_gpio		= 0, 
 	.is_embeded_batt	= 1,
 	.eoc_ibat_thre_ma	= 50,
-	.ichg_threshold_ua	= -1200000,
-	.ichg_regulation_thr_ua	= -375000,
+	.ichg_threshold_ua = -1200000,
+	.ichg_regulation_thr_ua 	= -375000,
 	.thermal_mitigation	= m7wl_pm8921_therm_mitigation,
 	.thermal_levels		= ARRAY_SIZE(m7wl_pm8921_therm_mitigation),
 	.cold_thr = PM_SMBC_BATT_TEMP_COLD_THR__HIGH,
@@ -554,7 +554,8 @@ __setup("androidboot.dq=", check_dq_setup);
 static struct pm8xxx_vibrator_platform_data pm8xxx_vib_pdata = {
 	.initial_vibrate_ms = 0,
 	.max_timeout_ms = 15000,
-	.level_mV = 3000,
+	.level_mV = 2700,
+	.threshold = 500,
 	};
 
 static struct pm8921_platform_data
