@@ -1772,7 +1772,7 @@ static struct android_usb_platform_data android_usb_pdata = {
 	.usb_id_pin_gpio = USB1_HS_ID_GPIO,
 	.usb_rmnet_interface = "HSIC:HSIC",
 	.usb_diag_interface = "diag,diag_mdm",
-	.fserial_init_string = "HSIC:modem,tty,tty:autobot,tty:serial,tty:autobot",
+	.fserial_init_string = "HSIC:modem,tty,tty:autobot,tty:serial,tty:autobot,tty:acm",
 	.serial_number = "000000000000",
 	.nluns		= 1,
 };
@@ -3891,7 +3891,8 @@ static struct cm3629_platform_data cm36282_pdata_sk2 = {
 	.ps_select = CM3629_PS1_ONLY,
 	.intr = PM8921_GPIO_PM_TO_SYS(PROXIMITY_INT),
 	.levels = { 12, 14, 77, 566, 1360, 4793, 8101, 13240, 18379, 65535},
-        .golden_adc = 0x1724,
+	.correction = {100, 400, 900, 1600, 2500, 3600, 4900, 6400, 8100, 10000},
+	.golden_adc = 0x1724,
 #ifdef CONFIG_WSENSOR_ENABLE
 	.w_golden_adc = 0x1AE0,
 #endif
@@ -3908,10 +3909,10 @@ static struct cm3629_platform_data cm36282_pdata_sk2 = {
 	.ps_conf2_val = CM3629_PS_ITB_1 | CM3629_PS_ITR_1 |
 			CM3629_PS2_INT_DIS | CM3629_PS1_INT_DIS,
 	.ps_conf3_val = CM3629_PS2_PROL_32,
-	.dark_level = 3,
-        .dynamical_threshold = 1,
-        .mapping_table = cm3629_mapping_table,
-        .mapping_size = ARRAY_SIZE(cm3629_mapping_table),
+	.dark_level = 1,
+	.dynamical_threshold = 1,
+	.mapping_table = cm3629_mapping_table,
+	.mapping_size = ARRAY_SIZE(cm3629_mapping_table),
 };
 
 
@@ -3935,7 +3936,8 @@ static struct cm3629_platform_data cm36282_pdata_r8 = {
 	.ps_select = CM3629_PS1_ONLY,
 	.intr = PM8921_GPIO_PM_TO_SYS(PROXIMITY_INT),
 	.levels = { 8, 20, 30, 200, 400, 2500, 3688, 6589, 9491, 65535},
-        .golden_adc = 0xA7D,
+	.correction = {100, 400, 900, 1600, 2500, 3600, 4900, 6400, 8100, 10000},
+	.golden_adc = 0xA7D,
 #ifdef CONFIG_WSENSOR_ENABLE
 	.w_golden_adc = 0x1AE0,
 #endif
@@ -3945,16 +3947,17 @@ static struct cm3629_platform_data cm36282_pdata_r8 = {
 	.ps1_thd_set = 0x15,
 	.ps1_thd_no_cal = 0x90,
 	.ps1_thd_with_cal = 0xD,
+	.ps_th_add = 5,
 	.ps_calibration_rule = 1,
-	.ps_conf1_val = CM3629_PS_DR_1_320 | CM3629_PS_IT_1_6T |
-			CM3629_PS1_PERS_3,
+	.ps_conf1_val = CM3629_PS_DR_1_40 | CM3629_PS_IT_1_6T |
+			CM3629_PS1_PERS_2,
 	.ps_conf2_val = CM3629_PS_ITB_1 | CM3629_PS_ITR_1 |
 			CM3629_PS2_INT_DIS | CM3629_PS1_INT_DIS,
 	.ps_conf3_val = CM3629_PS2_PROL_32,
-	.dark_level = 3,
-        .dynamical_threshold = 1,
-        .mapping_table = cm3629_mapping_table,
-        .mapping_size = ARRAY_SIZE(cm3629_mapping_table),
+	.dark_level = 1,
+	.dynamical_threshold = 1,
+	.mapping_table = cm3629_mapping_table,
+	.mapping_size = ARRAY_SIZE(cm3629_mapping_table),
 };
 
 
@@ -5341,6 +5344,9 @@ static struct platform_device *common_devices[] __initdata = {
 
 	&apq_compr_dsp,
 	&apq_multi_ch_pcm,
+#ifdef CONFIG_AUDIO_LOW_LATENCY
+	&apq_lowlatency_pcm,
+#endif
 };
 
 static struct platform_device *cdp_devices[] __initdata = {
